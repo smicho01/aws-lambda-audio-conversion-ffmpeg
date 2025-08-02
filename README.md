@@ -1,10 +1,10 @@
-# FFmpeg Audio Processor with AWS Lambda & Terraform by Sev
+# FFmpeg Audio Processor with AWS Lambda & Terraform by Sew
 
 This project sets up an **audio processing pipeline** using AWS Lambda and FFmpeg. Audio files uploaded to an S3 bucket (e.g., `.wav`, `.ogg`) are automatically converted to `.mp3` format using a Lambda function with a bundled FFmpeg binary.
 
 ---
 
-## 📦 Project Structure
+## Project Structure
 
 - `main.tf` — Terraform resources (Lambda, S3, IAM, etc.)
 - `variables.tf` — Input variables for configuration
@@ -16,7 +16,7 @@ This project sets up an **audio processing pipeline** using AWS Lambda and FFmpe
 
 ---
 
-## 🚀 Setup Instructions
+## Setup Instructions
 
 ### 1. Prerequisites
 
@@ -32,3 +32,7 @@ Before applying Terraform, you **must** build the FFmpeg static binary zip for L
 
 ```bash
 ./script.sh
+```
+
+## 3. NOTE !
+Running `script.sh` - AWS do not like ffmpeg created on ARM CPU. It is better to run script on Intel machine.
