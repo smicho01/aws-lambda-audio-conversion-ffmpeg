@@ -155,6 +155,10 @@ resource "aws_lambda_function" "audio_processor" {
   source_code_hash  = data.archive_file.audio_processor_zip.output_base64sha256
   layers            = [aws_lambda_layer_version.ffmpeg.arn]
 
+   ephemeral_storage {
+    size = 4048  # 4GB of ephemeral storage
+  }
+
   environment {
     variables = {
       SOURCE_BUCKET    = aws_s3_bucket.source_files_bucket.bucket
