@@ -36,3 +36,29 @@ Before applying Terraform, you **must** build the FFmpeg static binary zip for L
 
 ## 3. NOTE !
 Running `script.sh` - AWS do not like ffmpeg created on ARM CPU. It is better to run script on Intel machine.
+
+## 4. Don't want to upload large file each time to test ?
+
+Update below Lambda Event JSON to match the uploaded (source bucket) file name. My tested file 1h22min long and it has 850MB in size. Lambda compressed it to 44MB is size.
+
+```
+{
+  "Records": [
+    {
+      "eventVersion": "2.1",
+      "eventSource": "aws:s3",
+      "awsRegion": "eu-west-2",
+      "eventTime": "2025-08-03T11:32:00.000Z",
+      "eventName": "s3:ObjectCreated:Put",
+      "s3": {
+        "bucket": {
+          "name": "process-audio-files-source-production"
+        },
+        "object": {
+          "key": "IWT_week_5.wav"
+        }
+      }
+    }
+  ]
+}
+```
