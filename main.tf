@@ -185,13 +185,23 @@ resource "aws_s3_bucket_notification" "source_bucket_notification" {
 
   lambda_function {
     lambda_function_arn = aws_lambda_function.audio_processor.arn
-    events              = ["s3:ObjectCreated:*"]
+    events              = [
+      "s3:ObjectCreated:Put",
+      "s3:ObjectCreated:Post",
+      "s3:ObjectCreated:Copy",
+      "s3:ObjectCreated:CompleteMultipartUpload"
+    ]
     filter_suffix       = ".wav"
   }
 
   lambda_function {
     lambda_function_arn = aws_lambda_function.audio_processor.arn
-    events              = ["s3:ObjectCreated:*"]
+    events              = [
+      "s3:ObjectCreated:Put",
+      "s3:ObjectCreated:Post", 
+      "s3:ObjectCreated:Copy",
+      "s3:ObjectCreated:CompleteMultipartUpload"
+    ]
     filter_suffix       = ".ogg"
   }
 
