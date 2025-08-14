@@ -38,7 +38,10 @@ def lambda_handler(event, context):
             ffmpeg_bin, "-y",
             "-i", tmp_input,
             "-codec:a", "libmp3lame",
-            "-qscale:a", "3", # Adjust quality as needed 0 best (245-320 kbps?) 9-worst (65-120 kbps?)
+            "-b:a", "64k", # 64k - very good for speech
+            "-ar", "22050", # 22kHz sample rates (speech does not need 44kHz)
+            "-ac", "1", # mono audio (interviews rarely need a  stereo),
+            "-af", "highpass=f=80,lowpass=f=8000", # remove freq. outside speech range
             tmp_output
         ]
         subprocess.run(cmd, check=True)
