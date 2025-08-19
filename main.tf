@@ -150,13 +150,13 @@ resource "aws_lambda_function" "audio_processor" {
   handler           = "audio_processor.lambda_handler"
   runtime           = "python3.11"
   timeout           = 300
-  memory_size       = 2048
+  memory_size       = 6048
   filename          = data.archive_file.audio_processor_zip.output_path
   source_code_hash  = data.archive_file.audio_processor_zip.output_base64sha256
   layers            = [aws_lambda_layer_version.ffmpeg.arn]
 
    ephemeral_storage {
-    size = 4048  # 4GB of ephemeral storage
+    size = 9048  # 4GB of ephemeral storage
   }
 
   environment {
@@ -185,13 +185,23 @@ resource "aws_s3_bucket_notification" "source_bucket_notification" {
 
   lambda_function {
     lambda_function_arn = aws_lambda_function.audio_processor.arn
-    events              = ["s3:ObjectCreated:*"]
+    events              = [
+      "s3:ObjectCreated:Put",
+      "s3:ObjectCreated:Post",
+      "s3:ObjectCreated:Copy",
+      "s3:ObjectCreated:CompleteMultipartUpload"
+    ]
     filter_suffix       = ".wav"
   }
 
   lambda_function {
     lambda_function_arn = aws_lambda_function.audio_processor.arn
-    events              = ["s3:ObjectCreated:*"]
+    events              = [
+      "s3:ObjectCreated:Put",
+      "s3:ObjectCreated:Post", 
+      "s3:ObjectCreated:Copy",
+      "s3:ObjectCreated:CompleteMultipartUpload"
+    ]
     filter_suffix       = ".ogg"
   }
 
