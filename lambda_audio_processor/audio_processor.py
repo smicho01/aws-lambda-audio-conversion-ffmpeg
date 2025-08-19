@@ -130,7 +130,7 @@ def lambda_handler(event, context):
         ]
         subprocess.run(cmd, check=True)
 
-        # ✅ NEW: Integrity check
+        # Integrity check
         print("Checking file integrity...")
         is_valid, integrity_info = check_file_integrity(tmp_output, ffmpeg_bin)
         
